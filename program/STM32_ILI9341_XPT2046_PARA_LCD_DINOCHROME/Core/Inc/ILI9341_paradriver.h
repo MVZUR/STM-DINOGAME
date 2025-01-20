@@ -132,6 +132,10 @@ extern u16  BACK_COLOR; 	//Background color. Default is white
 #define	LCD_RD_SET	(LCD_RD = 1)
 */
 
+#define TGPIO_TYPE GPIOA		// LCD control pins port
+#define TOUCH_PIN  4	//PA4	//T_PEN		//(input, PULL-UP)
+#define TOUCH			HAL_GPIO_ReadPin(TGPIO_TYPE, GPIO_PIN_4)
+
 
 //LCD port control (without BIT BANDING)
 #define GPIO_TYPE GPIOC		// LCD control pins port

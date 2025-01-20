@@ -24,9 +24,6 @@
 #include "sys.h"
 #include "delay.h"
 #include "ILI9341_paradriver.h"
-#include "XPT2046_driver.h"
-#include "test.h"
-#include "pic.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -107,24 +104,15 @@ int main(void)
   /* USER CODE BEGIN 2 */
   delay_init(72);			// delay initialization (System Clock [MHz])
   ILI9341_paradriver_Init();			// initialization of LCD driver
-  TP_Init();
 
   HAL_TIM_Base_Start_IT(&htim2);	// timer start (60Hz refresh rate)
 
 
-/*  LCD_DrawRectangle(50,50,100,100);
-  LCD_DrawFillRectangle(50,50,70,70);
-  LCD_DrawRectangle(140,50,190,100);
-  LCD_DrawFillRectangle(140,50,160,70);
-  Show_Str(100,270,WHITE,BLACK,"HELLO",24,0);
-  Show_Str(35,300,RED,WHITE,"this is test program",16,1);*/
 
+  	//POINT_COLOR=BLACK;
+  	//LCD_DrawLine(0,0,0,240);	// hide obstacles
 
-/*
-  	POINT_COLOR=BLACK;
-  	LCD_DrawLine(0,0,0,240);	// hide obstacles
-*/
-
+  //Show_Str(35,200,RED,WHITE,"this is test program",16,1);
 
 
 
@@ -211,7 +199,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 299;
+  htim2.Init.Prescaler = 199;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 999;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;

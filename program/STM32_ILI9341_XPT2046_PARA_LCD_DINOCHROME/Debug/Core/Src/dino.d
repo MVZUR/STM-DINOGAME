@@ -27,8 +27,7 @@ Core/Src/dino.o: ../Core/Src/dino.c ../Core/Inc/delay.h ../Core/Inc/sys.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h \
- ../Core/Inc/ILI9341_paradriver.h ../Core/Inc/sys.h \
- ../Core/Inc/XPT2046_driver.h
+ ../Core/Inc/ILI9341_paradriver.h ../Core/Inc/sys.h
 ../Core/Inc/delay.h:
 ../Core/Inc/sys.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
@@ -61,4 +60,3 @@ Core/Src/dino.o: ../Core/Src/dino.c ../Core/Inc/delay.h ../Core/Inc/sys.h \
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h:
 ../Core/Inc/ILI9341_paradriver.h:
 ../Core/Inc/sys.h:
-../Core/Inc/XPT2046_driver.h:

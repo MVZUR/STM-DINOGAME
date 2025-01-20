@@ -1,8 +1,0 @@
-../Core/Src/24cxx.c:64:6:AT24CXX_Init	1
-../Core/Src/24cxx.c:76:4:AT24CXX_ReadOneByte	1
-../Core/Src/24cxx.c:105:6:AT24CXX_WriteOneByte	1
-../Core/Src/24cxx.c:133:6:AT24CXX_WriteLenByte	2
-../Core/Src/24cxx.c:152:5:AT24CXX_ReadLenByte	2
-../Core/Src/24cxx.c:174:4:AT24CXX_Check	3
-../Core/Src/24cxx.c:198:6:AT24CXX_Read	2
-../Core/Src/24cxx.c:217:6:AT24CXX_Write	2

@@ -1,8 +1,0 @@
-../Core/Src/myiic.c:64:6:IIC_Init	1
-../Core/Src/myiic.c:89:6:IIC_Start	1
-../Core/Src/myiic.c:107:6:IIC_Stop	1
-../Core/Src/myiic.c:126:4:IIC_Wait_Ack	3
-../Core/Src/myiic.c:152:6:IIC_Ack	1
-../Core/Src/myiic.c:170:6:IIC_NAck	1
-../Core/Src/myiic.c:188:6:IIC_Send_Byte	2
-../Core/Src/myiic.c:213:4:IIC_Read_Byte	4
