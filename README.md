@@ -1,0 +1,2 @@
+# STM-DINOGAME
+game based on ILI9341 XPT2046 LCD 320x240 Touch Screen
