@@ -1,0 +1,7 @@
+../Core/Src/dino.c:105:6:DrawDino	1
+../Core/Src/dino.c:206:6:DinoAnimation	19
+../Core/Src/dino.c:285:6:DrawObstacle1	1
+../Core/Src/dino.c:317:6:DrawObstacle2	1
+../Core/Src/dino.c:348:6:DrawObstacle3	1
+../Core/Src/dino.c:419:6:ObstacleAnimation	3
+../Core/Src/dino.c:437:6:GAME	3
