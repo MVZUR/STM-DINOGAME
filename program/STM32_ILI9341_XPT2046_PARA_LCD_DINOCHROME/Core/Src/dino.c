@@ -10,17 +10,31 @@
 // #TESTING
 // HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 
+// REFRESHING
+extern uint8_t refresh;			// dino, ground & game pending
+extern uint8_t obs_refresh; 	// obstacle
 
-extern uint8_t refresh;
-extern uint8_t obs_refresh;
 
-uint16_t jump_step=0;	// step control for jumping
+// ANIMATIONS
+// -> dino jumping:
+uint16_t jump_step=0;	// step control for dino jumping
 uint16_t jump_pos=0;	// dino position on screen while jumping
-uint8_t walk_step=0;		// step control for walking animation
+int8_t velocity=0;		// velocity of dino while jumping
 
-int8_t velocity=0;
+// -> dino walking
+uint8_t walk_step=0;	// step control for walking animation
 
-// figures definitions
+// -> obstacle moving
+uint16_t obs_step=0;		// step control for obstacle moving
+uint16_t obs_pos=0;			// obstacle position on screen while moving
+uint8_t obs_acc_temp=0;		// obstacle temporary accelerate
+
+// -> game pending
+uint16_t time=0;	// time reference
+uint8_t spd=1;		// obstacle actual speed
+
+
+// FIGURES DEFINITIONS
 void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg);	// dino
 void DrawObstacle1(uint16_t shift);		// single BIG
 void DrawObstacle2(uint16_t shift);		// single small
@@ -28,6 +42,9 @@ void DrawObstacle3(uint16_t shift);		// BIG & small
 
 
 
+// ------------------------------------------------------------------------------------
+// ----------------------------------- ANIMATIONS -------------------------------------
+// ------------------------------------------------------------------------------------
 void DinoAnimation(void)
 {
 	if((TOUCH==0) || (jump_step != 0))	// jumping
@@ -100,10 +117,6 @@ void DinoAnimation(void)
 }
 
 
-uint16_t obs_step=0;	// obstacle step
-uint16_t obs_pos=0;			// obstacle position
-uint8_t obs_acc_temp=0;	// obstacle temporary accelerate
-
 void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
 {
 	if(obs_refresh==0)
@@ -148,17 +161,15 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
 
 		DrawObstacle3(obs_pos);
 	}
-
-
 }
 
-uint16_t time=0;
-uint8_t spd=1;
 
+
+// ------------------------------------------------------------------------------------
+// ---------------------------------- GAME PENDING ------------------------------------
+// ------------------------------------------------------------------------------------
 void GAME(void)
 {
-
-
 	if(refresh==0)
 	{
 		POINT_COLOR=GRAY;
