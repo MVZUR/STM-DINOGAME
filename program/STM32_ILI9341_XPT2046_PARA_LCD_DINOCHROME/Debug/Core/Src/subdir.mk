@@ -8,6 +8,7 @@ C_SRCS += \
 ../Core/Src/ILI9341_paradriver.c \
 ../Core/Src/delay.c \
 ../Core/Src/dino.c \
+../Core/Src/figures.c \
 ../Core/Src/main.c \
 ../Core/Src/stm32f3xx_hal_msp.c \
 ../Core/Src/stm32f3xx_it.c \
@@ -19,6 +20,7 @@ OBJS += \
 ./Core/Src/ILI9341_paradriver.o \
 ./Core/Src/delay.o \
 ./Core/Src/dino.o \
+./Core/Src/figures.o \
 ./Core/Src/main.o \
 ./Core/Src/stm32f3xx_hal_msp.o \
 ./Core/Src/stm32f3xx_it.o \
@@ -30,6 +32,7 @@ C_DEPS += \
 ./Core/Src/ILI9341_paradriver.d \
 ./Core/Src/delay.d \
 ./Core/Src/dino.d \
+./Core/Src/figures.d \
 ./Core/Src/main.d \
 ./Core/Src/stm32f3xx_hal_msp.d \
 ./Core/Src/stm32f3xx_it.d \
@@ -45,7 +48,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/ILI9341_paradriver.cyclo ./Core/Src/ILI9341_paradriver.d ./Core/Src/ILI9341_paradriver.o ./Core/Src/ILI9341_paradriver.su ./Core/Src/delay.cyclo ./Core/Src/delay.d ./Core/Src/delay.o ./Core/Src/delay.su ./Core/Src/dino.cyclo ./Core/Src/dino.d ./Core/Src/dino.o ./Core/Src/dino.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32f3xx_hal_msp.cyclo ./Core/Src/stm32f3xx_hal_msp.d ./Core/Src/stm32f3xx_hal_msp.o ./Core/Src/stm32f3xx_hal_msp.su ./Core/Src/stm32f3xx_it.cyclo ./Core/Src/stm32f3xx_it.d ./Core/Src/stm32f3xx_it.o ./Core/Src/stm32f3xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f3xx.cyclo ./Core/Src/system_stm32f3xx.d ./Core/Src/system_stm32f3xx.o ./Core/Src/system_stm32f3xx.su
+	-$(RM) ./Core/Src/ILI9341_paradriver.cyclo ./Core/Src/ILI9341_paradriver.d ./Core/Src/ILI9341_paradriver.o ./Core/Src/ILI9341_paradriver.su ./Core/Src/delay.cyclo ./Core/Src/delay.d ./Core/Src/delay.o ./Core/Src/delay.su ./Core/Src/dino.cyclo ./Core/Src/dino.d ./Core/Src/dino.o ./Core/Src/dino.su ./Core/Src/figures.cyclo ./Core/Src/figures.d ./Core/Src/figures.o ./Core/Src/figures.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32f3xx_hal_msp.cyclo ./Core/Src/stm32f3xx_hal_msp.d ./Core/Src/stm32f3xx_hal_msp.o ./Core/Src/stm32f3xx_hal_msp.su ./Core/Src/stm32f3xx_it.cyclo ./Core/Src/stm32f3xx_it.d ./Core/Src/stm32f3xx_it.o ./Core/Src/stm32f3xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f3xx.cyclo ./Core/Src/system_stm32f3xx.d ./Core/Src/system_stm32f3xx.o ./Core/Src/system_stm32f3xx.su
 
 .PHONY: clean-Core-2f-Src
 

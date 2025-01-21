@@ -1,0 +1,4 @@
+../Core/Src/figures.c:17:6:DrawDino	24	static
+../Core/Src/figures.c:107:6:DrawObstacle1	24	static
+../Core/Src/figures.c:141:6:DrawObstacle2	24	static
+../Core/Src/figures.c:174:6:DrawObstacle3	24	static

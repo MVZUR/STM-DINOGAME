@@ -52,6 +52,7 @@
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint8_t refresh = 0;
+uint8_t obs_refresh = 0;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -217,9 +218,15 @@ void TIM2_IRQHandler(void)
 	  refresh = 0;
   }*/
 refresh++;
-if(refresh>2)
+if(refresh>1)
 {
 	refresh=0;
+}
+
+obs_refresh++;
+if(obs_refresh>3)
+{
+	obs_refresh=0;
 }
 
 
