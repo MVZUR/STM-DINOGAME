@@ -7,13 +7,16 @@
 #include "delay.h"
 #include "ILI9341_paradriver.h"
 
+// #TESTING
+// HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+
 
 extern uint8_t refresh;
 extern uint8_t obs_refresh;
 
-uint16_t jump_step=0;
-uint16_t jump=0;
-uint16_t leg_step=0;
+uint16_t jump_step=0;	// step control for jumping
+uint16_t jump_pos=0;	// dino position on screen while jumping
+uint8_t walk_step=0;		// step control for walking animation
 
 int8_t velocity=0;
 
@@ -31,71 +34,65 @@ void DinoAnimation(void)
 	{
 		if(refresh == 1)
 		{
-
 			switch(jump_step)
 			{
-			case 0:
-			    velocity = 3;	//30
-			    break;
-			case 30:
-			    velocity = 2;	//14
-			    break;
-			case 44:
-			    velocity = 1;	//7
-			    break;
-			case 51:
-			    velocity = 0;	//3
-			    break;
-			case 54:
-			    velocity = -1;	//7
-			    break;
-			case 61:
-			    velocity = -2;	//14
-			    break;
-			case 75:
-			    velocity = -3;	//30
-			    break;
-			default:
-			    break;
+				case 0:
+					velocity = 3;	//30
+					break;
+				case 30:
+					velocity = 2;	//14
+					break;
+				case 44:
+					velocity = 1;	//7
+					break;
+				case 51:
+					velocity = 0;	//3
+					break;
+				case 54:
+					velocity = -1;	//7
+					break;
+				case 61:
+					velocity = -2;	//14
+					break;
+				case 75:
+					velocity = -3;	//30
+					break;
+				default:
+					break;
 			}
 
 			jump_step++;
 
-			if(jump_step>104)
+			if(jump_step>104)	// in fact "jumping resolution"
 			{
-				jump_step = 0;
+				jump_step = 0;	// get back on base position
 			}
 
-			jump = jump + velocity;
+			jump_pos = jump_pos + velocity;		// calculate position while jumping
 
-			DrawDino(jump,0,0);
-			//dino_drawed = 1;
+			DrawDino(jump_pos,0,0);
 		}
-
-
 	}
+
 	else	// walking with leg animation
 	{
 		if(refresh == 1)
 		{
-			leg_step++;
+			walk_step++;
 
-			if(leg_step>60)		//delay between steps
+			if(walk_step>60)		//delay between steps
 			{
-				leg_step = 0;
+				walk_step = 0;
 			}
 
-			if(leg_step < 30)
+			if(walk_step < 30)
 			{
 				DrawDino(0,0,3);
-				//dino_drawed = 1;
 			}
 
-			else if(leg_step >= 30)
+			else if(walk_step >= 30)
 			{
-				//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 				DrawDino(0,3,0);
-				//dino_drawed = 1;
 			}
 
 		}
@@ -141,16 +138,15 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
 				break;
 		}
 
-		obs_pos = obs_pos + obs_acc;
+		obs_pos = obs_pos + obs_acc;	// calculate obstacle position
 
-		if(obs_pos>410)
+		if(obs_pos>410)		// do not go too far..
 		{
-			obs_step = 0;
-			obs_pos = 0;
+			obs_step = 0;	// reset step
+			obs_pos = 0;	// place obstacle on base position - out of screen (TYPE OF OBSTACLE CAN BE CHANGED NOW)
 		}
 
 		DrawObstacle3(obs_pos);
-		//obs_drawed = 1;
 	}
 
 
@@ -163,17 +159,13 @@ void GAME(void)
 {
 
 
-	if((refresh==0)) //&& (dino_drawed == 1)) //&& (obs_drawed == 1))
+	if(refresh==0)
 	{
-/*		dino_drawed = 0;
-		obs_drawed = 0;*/
-
 		POINT_COLOR=GRAY;
 		LCD_DrawLine(0,190,320,190);	// draw ground
 
 
 		time++;
-		//spd = 1;
 
 		if(time == 400)
 		{
@@ -207,7 +199,5 @@ void GAME(void)
 	}
 
 	DinoAnimation();
-
-
 	ObstacleAnimation(spd);
 }

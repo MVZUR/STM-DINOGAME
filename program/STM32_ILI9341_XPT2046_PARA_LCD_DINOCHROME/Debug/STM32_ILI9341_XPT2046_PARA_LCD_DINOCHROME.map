@@ -3876,23 +3876,24 @@ LOAD C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .bss.jump_step
                 0x20000044        0x2 ./Core/Src/dino.o
                 0x20000044                jump_step
- .bss.jump      0x20000046        0x2 ./Core/Src/dino.o
-                0x20000046                jump
- .bss.leg_step  0x20000048        0x2 ./Core/Src/dino.o
-                0x20000048                leg_step
- .bss.velocity  0x2000004a        0x1 ./Core/Src/dino.o
-                0x2000004a                velocity
- *fill*         0x2000004b        0x1 
- .bss.obs_step  0x2000004c        0x2 ./Core/Src/dino.o
-                0x2000004c                obs_step
- .bss.obs_pos   0x2000004e        0x2 ./Core/Src/dino.o
-                0x2000004e                obs_pos
+ .bss.jump_pos  0x20000046        0x2 ./Core/Src/dino.o
+                0x20000046                jump_pos
+ .bss.walk_step
+                0x20000048        0x1 ./Core/Src/dino.o
+                0x20000048                walk_step
+ .bss.velocity  0x20000049        0x1 ./Core/Src/dino.o
+                0x20000049                velocity
+ .bss.obs_step  0x2000004a        0x2 ./Core/Src/dino.o
+                0x2000004a                obs_step
+ .bss.obs_pos   0x2000004c        0x2 ./Core/Src/dino.o
+                0x2000004c                obs_pos
  .bss.obs_acc_temp
-                0x20000050        0x1 ./Core/Src/dino.o
-                0x20000050                obs_acc_temp
- *fill*         0x20000051        0x1 
- .bss.time      0x20000052        0x2 ./Core/Src/dino.o
-                0x20000052                time
+                0x2000004e        0x1 ./Core/Src/dino.o
+                0x2000004e                obs_acc_temp
+ *fill*         0x2000004f        0x1 
+ .bss.time      0x20000050        0x2 ./Core/Src/dino.o
+                0x20000050                time
+ *fill*         0x20000052        0x2 
  .bss.htim2     0x20000054       0x4c ./Core/Src/main.o
                 0x20000054                htim2
  .bss.refresh   0x200000a0        0x1 ./Core/Src/stm32f3xx_it.o
@@ -4174,37 +4175,37 @@ LOAD C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_line    0x00009895     0x3eba ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.o
  .debug_line    0x0000d74f     0x1b0e ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.o
 
-.debug_str      0x00000000    0xc56af
+.debug_str      0x00000000    0xc56b4
  .debug_str     0x00000000    0xc264c ./Core/Src/ILI9341_paradriver.o
                               0xc2d22 (size before relaxing)
  .debug_str     0x000c264c       0x53 ./Core/Src/delay.o
                               0xbf35b (size before relaxing)
- .debug_str     0x000c269f       0xc1 ./Core/Src/dino.o
-                              0xc299f (size before relaxing)
- .debug_str     0x000c2760       0x54 ./Core/Src/figures.o
+ .debug_str     0x000c269f       0xc6 ./Core/Src/dino.o
+                              0xc29a4 (size before relaxing)
+ .debug_str     0x000c2765       0x54 ./Core/Src/figures.o
                               0xc28cc (size before relaxing)
- .debug_str     0x000c27b4      0x936 ./Core/Src/main.o
+ .debug_str     0x000c27b9      0x936 ./Core/Src/main.o
                               0xc337b (size before relaxing)
- .debug_str     0x000c30ea      0x40f ./Core/Src/stm32f3xx_hal_msp.o
+ .debug_str     0x000c30ef      0x40f ./Core/Src/stm32f3xx_hal_msp.o
                               0xbf6a3 (size before relaxing)
- .debug_str     0x000c34f9       0xec ./Core/Src/stm32f3xx_it.o
+ .debug_str     0x000c34fe       0xec ./Core/Src/stm32f3xx_it.o
                               0xbf21c (size before relaxing)
- .debug_str     0x000c35e5       0xe9 ./Core/Src/system_stm32f3xx.o
+ .debug_str     0x000c35ea       0xe9 ./Core/Src/system_stm32f3xx.o
                               0xbed52 (size before relaxing)
- .debug_str     0x000c36ce       0x9b ./Core/Startup/startup_stm32f303retx.o
- .debug_str     0x000c3769      0x389 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.o
+ .debug_str     0x000c36d3       0x9b ./Core/Startup/startup_stm32f303retx.o
+ .debug_str     0x000c376e      0x389 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.o
                               0xbf5fb (size before relaxing)
- .debug_str     0x000c3af2      0x37f ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.o
+ .debug_str     0x000c3af7      0x37f ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.o
                               0xbf67f (size before relaxing)
- .debug_str     0x000c3e71      0x18e ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.o
+ .debug_str     0x000c3e76      0x18e ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.o
                               0xbef37 (size before relaxing)
- .debug_str     0x000c3fff      0x2d6 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.o
+ .debug_str     0x000c4004      0x2d6 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.o
                               0xbf1f6 (size before relaxing)
- .debug_str     0x000c42d5       0xbe ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.o
+ .debug_str     0x000c42da       0xbe ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.o
                               0xbf040 (size before relaxing)
- .debug_str     0x000c4393      0xe40 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.o
+ .debug_str     0x000c4398      0xe40 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.o
                               0xc0189 (size before relaxing)
- .debug_str     0x000c51d3      0x4dc ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.o
+ .debug_str     0x000c51d8      0x4dc ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.o
                               0xbf9cf (size before relaxing)
 
 .comment        0x00000000       0x43

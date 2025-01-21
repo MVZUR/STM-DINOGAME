@@ -41,13 +41,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  18 .debug_line   0000f25d  00000000  00000000  00034ede  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000c56af  00000000  00000000  0004413b  2**0
+ 19 .debug_str    000c56b4  00000000  00000000  0004413b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  001097ea  2**0
+ 20 .comment      00000043  00000000  00000000  001097ef  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00002eec  00000000  00000000  00109830  2**2
+ 21 .debug_frame  00002eec  00000000  00000000  00109834  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 0000007f  00000000  00000000  0010c71c  2**0
+ 22 .debug_line_str 0000007f  00000000  00000000  0010c720  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2608,7 +2608,6 @@ void DinoAnimation(void)
  8001302:	2b01      	cmp	r3, #1
  8001304:	f040 80cf 	bne.w	80014a6 <DinoAnimation+0x1c6>
 		{
-
 			switch(jump_step)
  8001308:	4b68      	ldr	r3, [pc, #416]	@ (80014ac <DinoAnimation+0x1cc>)
  800130a:	881b      	ldrh	r3, [r3, #0]
@@ -2672,57 +2671,57 @@ void DinoAnimation(void)
  80013dc:	0800141d 	.word	0x0800141d
  80013e0:	08001415 	.word	0x08001415
 			{
-			case 0:
-			    velocity = 3;	//30
+				case 0:
+					velocity = 3;	//30
  80013e4:	4b33      	ldr	r3, [pc, #204]	@ (80014b4 <DinoAnimation+0x1d4>)
  80013e6:	2203      	movs	r2, #3
  80013e8:	701a      	strb	r2, [r3, #0]
-			    break;
+					break;
  80013ea:	e018      	b.n	800141e <DinoAnimation+0x13e>
-			case 30:
-			    velocity = 2;	//14
+				case 30:
+					velocity = 2;	//14
  80013ec:	4b31      	ldr	r3, [pc, #196]	@ (80014b4 <DinoAnimation+0x1d4>)
  80013ee:	2202      	movs	r2, #2
  80013f0:	701a      	strb	r2, [r3, #0]
-			    break;
+					break;
  80013f2:	e014      	b.n	800141e <DinoAnimation+0x13e>
-			case 44:
-			    velocity = 1;	//7
+				case 44:
+					velocity = 1;	//7
  80013f4:	4b2f      	ldr	r3, [pc, #188]	@ (80014b4 <DinoAnimation+0x1d4>)
  80013f6:	2201      	movs	r2, #1
  80013f8:	701a      	strb	r2, [r3, #0]
-			    break;
+					break;
  80013fa:	e010      	b.n	800141e <DinoAnimation+0x13e>
-			case 51:
-			    velocity = 0;	//3
+				case 51:
+					velocity = 0;	//3
  80013fc:	4b2d      	ldr	r3, [pc, #180]	@ (80014b4 <DinoAnimation+0x1d4>)
  80013fe:	2200      	movs	r2, #0
  8001400:	701a      	strb	r2, [r3, #0]
-			    break;
+					break;
  8001402:	e00c      	b.n	800141e <DinoAnimation+0x13e>
-			case 54:
-			    velocity = -1;	//7
+				case 54:
+					velocity = -1;	//7
  8001404:	4b2b      	ldr	r3, [pc, #172]	@ (80014b4 <DinoAnimation+0x1d4>)
  8001406:	22ff      	movs	r2, #255	@ 0xff
  8001408:	701a      	strb	r2, [r3, #0]
-			    break;
+					break;
  800140a:	e008      	b.n	800141e <DinoAnimation+0x13e>
-			case 61:
-			    velocity = -2;	//14
+				case 61:
+					velocity = -2;	//14
  800140c:	4b29      	ldr	r3, [pc, #164]	@ (80014b4 <DinoAnimation+0x1d4>)
  800140e:	22fe      	movs	r2, #254	@ 0xfe
  8001410:	701a      	strb	r2, [r3, #0]
-			    break;
+					break;
  8001412:	e004      	b.n	800141e <DinoAnimation+0x13e>
-			case 75:
-			    velocity = -3;	//30
+				case 75:
+					velocity = -3;	//30
  8001414:	4b27      	ldr	r3, [pc, #156]	@ (80014b4 <DinoAnimation+0x1d4>)
  8001416:	22fd      	movs	r2, #253	@ 0xfd
  8001418:	701a      	strb	r2, [r3, #0]
-			    break;
+					break;
  800141a:	e000      	b.n	800141e <DinoAnimation+0x13e>
-			default:
-			    break;
+				default:
+					break;
  800141c:	bf00      	nop
 			}
 
@@ -2734,19 +2733,19 @@ void DinoAnimation(void)
  8001426:	4b21      	ldr	r3, [pc, #132]	@ (80014ac <DinoAnimation+0x1cc>)
  8001428:	801a      	strh	r2, [r3, #0]
 
-			if(jump_step>104)
+			if(jump_step>104)	// in fact "jumping resolution"
  800142a:	4b20      	ldr	r3, [pc, #128]	@ (80014ac <DinoAnimation+0x1cc>)
  800142c:	881b      	ldrh	r3, [r3, #0]
  800142e:	2b68      	cmp	r3, #104	@ 0x68
  8001430:	d902      	bls.n	8001438 <DinoAnimation+0x158>
 			{
-				jump_step = 0;
+				jump_step = 0;	// get back on base position
  8001432:	4b1e      	ldr	r3, [pc, #120]	@ (80014ac <DinoAnimation+0x1cc>)
  8001434:	2200      	movs	r2, #0
  8001436:	801a      	strh	r2, [r3, #0]
 			}
 
-			jump = jump + velocity;
+			jump_pos = jump_pos + velocity;		// calculate position while jumping
  8001438:	4b1e      	ldr	r3, [pc, #120]	@ (80014b4 <DinoAnimation+0x1d4>)
  800143a:	f993 3000 	ldrsb.w	r3, [r3]
  800143e:	b29a      	uxth	r2, r3
@@ -2757,7 +2756,7 @@ void DinoAnimation(void)
  8001448:	4b1b      	ldr	r3, [pc, #108]	@ (80014b8 <DinoAnimation+0x1d8>)
  800144a:	801a      	strh	r2, [r3, #0]
 
-			DrawDino(jump,0,0);
+			DrawDino(jump_pos,0,0);
  800144c:	4b1a      	ldr	r3, [pc, #104]	@ (80014b8 <DinoAnimation+0x1d8>)
  800144e:	881b      	ldrh	r3, [r3, #0]
  8001450:	2200      	movs	r2, #0
@@ -2766,9 +2765,9 @@ void DinoAnimation(void)
  8001456:	f000 f923 	bl	80016a0 <DrawDino>
 		if(refresh == 1)
  800145a:	e024      	b.n	80014a6 <DinoAnimation+0x1c6>
-
-
+		}
 	}
+
 	else	// walking with leg animation
 	{
 		if(refresh == 1)
@@ -2777,29 +2776,29 @@ void DinoAnimation(void)
  8001460:	2b01      	cmp	r3, #1
  8001462:	d120      	bne.n	80014a6 <DinoAnimation+0x1c6>
 		{
-			leg_step++;
+			walk_step++;
  8001464:	4b15      	ldr	r3, [pc, #84]	@ (80014bc <DinoAnimation+0x1dc>)
- 8001466:	881b      	ldrh	r3, [r3, #0]
+ 8001466:	781b      	ldrb	r3, [r3, #0]
  8001468:	3301      	adds	r3, #1
- 800146a:	b29a      	uxth	r2, r3
+ 800146a:	b2da      	uxtb	r2, r3
  800146c:	4b13      	ldr	r3, [pc, #76]	@ (80014bc <DinoAnimation+0x1dc>)
- 800146e:	801a      	strh	r2, [r3, #0]
+ 800146e:	701a      	strb	r2, [r3, #0]
 
-			if(leg_step>60)		//delay between steps
+			if(walk_step>60)		//delay between steps
  8001470:	4b12      	ldr	r3, [pc, #72]	@ (80014bc <DinoAnimation+0x1dc>)
- 8001472:	881b      	ldrh	r3, [r3, #0]
+ 8001472:	781b      	ldrb	r3, [r3, #0]
  8001474:	2b3c      	cmp	r3, #60	@ 0x3c
  8001476:	d902      	bls.n	800147e <DinoAnimation+0x19e>
 			{
-				leg_step = 0;
+				walk_step = 0;
  8001478:	4b10      	ldr	r3, [pc, #64]	@ (80014bc <DinoAnimation+0x1dc>)
  800147a:	2200      	movs	r2, #0
- 800147c:	801a      	strh	r2, [r3, #0]
+ 800147c:	701a      	strb	r2, [r3, #0]
 			}
 
-			if(leg_step < 30)
+			if(walk_step < 30)
  800147e:	4b0f      	ldr	r3, [pc, #60]	@ (80014bc <DinoAnimation+0x1dc>)
- 8001480:	881b      	ldrh	r3, [r3, #0]
+ 8001480:	781b      	ldrb	r3, [r3, #0]
  8001482:	2b1d      	cmp	r3, #29
  8001484:	d805      	bhi.n	8001492 <DinoAnimation+0x1b2>
 			{
@@ -2808,16 +2807,16 @@ void DinoAnimation(void)
  8001488:	2100      	movs	r1, #0
  800148a:	2000      	movs	r0, #0
  800148c:	f000 f908 	bl	80016a0 <DrawDino>
-				//dino_drawed = 1;
+				DrawDino(0,3,0);
 			}
 
 		}
 	}
 }
  8001490:	e009      	b.n	80014a6 <DinoAnimation+0x1c6>
-			else if(leg_step >= 30)
+			else if(walk_step >= 30)
  8001492:	4b0a      	ldr	r3, [pc, #40]	@ (80014bc <DinoAnimation+0x1dc>)
- 8001494:	881b      	ldrh	r3, [r3, #0]
+ 8001494:	781b      	ldrb	r3, [r3, #0]
  8001496:	2b1d      	cmp	r3, #29
  8001498:	d905      	bls.n	80014a6 <DinoAnimation+0x1c6>
 				DrawDino(0,3,0);
@@ -2832,7 +2831,7 @@ void DinoAnimation(void)
  80014aa:	bf00      	nop
  80014ac:	20000044 	.word	0x20000044
  80014b0:	200000a0 	.word	0x200000a0
- 80014b4:	2000004a 	.word	0x2000004a
+ 80014b4:	20000049 	.word	0x20000049
  80014b8:	20000046 	.word	0x20000046
  80014bc:	20000048 	.word	0x20000048
 
@@ -2971,7 +2970,7 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
  8001588:	bf00      	nop
 		}
 
-		obs_pos = obs_pos + obs_acc;
+		obs_pos = obs_pos + obs_acc;	// calculate obstacle position
  800158a:	79fb      	ldrb	r3, [r7, #7]
  800158c:	b29a      	uxth	r2, r3
  800158e:	4b10      	ldr	r3, [pc, #64]	@ (80015d0 <ObstacleAnimation+0x110>)
@@ -2981,17 +2980,17 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
  8001596:	4b0e      	ldr	r3, [pc, #56]	@ (80015d0 <ObstacleAnimation+0x110>)
  8001598:	801a      	strh	r2, [r3, #0]
 
-		if(obs_pos>410)
+		if(obs_pos>410)		// do not go too far..
  800159a:	4b0d      	ldr	r3, [pc, #52]	@ (80015d0 <ObstacleAnimation+0x110>)
  800159c:	881b      	ldrh	r3, [r3, #0]
  800159e:	f5b3 7fcd 	cmp.w	r3, #410	@ 0x19a
  80015a2:	d905      	bls.n	80015b0 <ObstacleAnimation+0xf0>
 		{
-			obs_step = 0;
+			obs_step = 0;	// reset step
  80015a4:	4b08      	ldr	r3, [pc, #32]	@ (80015c8 <ObstacleAnimation+0x108>)
  80015a6:	2200      	movs	r2, #0
  80015a8:	801a      	strh	r2, [r3, #0]
-			obs_pos = 0;
+			obs_pos = 0;	// place obstacle on base position - out of screen (TYPE OF OBSTACLE CAN BE CHANGED NOW)
  80015aa:	4b09      	ldr	r3, [pc, #36]	@ (80015d0 <ObstacleAnimation+0x110>)
  80015ac:	2200      	movs	r2, #0
  80015ae:	801a      	strh	r2, [r3, #0]
@@ -3002,7 +3001,6 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
  80015b2:	881b      	ldrh	r3, [r3, #0]
  80015b4:	4618      	mov	r0, r3
  80015b6:	f000 fb98 	bl	8001cea <DrawObstacle3>
-		//obs_drawed = 1;
 	}
 
 
@@ -3013,9 +3011,9 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
  80015c0:	bd80      	pop	{r7, pc}
  80015c2:	bf00      	nop
  80015c4:	200000a1 	.word	0x200000a1
- 80015c8:	2000004c 	.word	0x2000004c
- 80015cc:	20000050 	.word	0x20000050
- 80015d0:	2000004e 	.word	0x2000004e
+ 80015c8:	2000004a 	.word	0x2000004a
+ 80015cc:	2000004e 	.word	0x2000004e
+ 80015d0:	2000004c 	.word	0x2000004c
 
 080015d4 <GAME>:
 
@@ -3028,15 +3026,12 @@ void GAME(void)
  80015d6:	af00      	add	r7, sp, #0
 
 
-	if((refresh==0)) //&& (dino_drawed == 1)) //&& (obs_drawed == 1))
+	if(refresh==0)
  80015d8:	4b2d      	ldr	r3, [pc, #180]	@ (8001690 <GAME+0xbc>)
  80015da:	781b      	ldrb	r3, [r3, #0]
  80015dc:	2b00      	cmp	r3, #0
  80015de:	d14d      	bne.n	800167c <GAME+0xa8>
 	{
-/*		dino_drawed = 0;
-		obs_drawed = 0;*/
-
 		POINT_COLOR=GRAY;
  80015e0:	4b2c      	ldr	r3, [pc, #176]	@ (8001694 <GAME+0xc0>)
  80015e2:	f245 22aa 	movw	r2, #21162	@ 0x52aa
@@ -3056,7 +3051,6 @@ void GAME(void)
  80015fc:	b29a      	uxth	r2, r3
  80015fe:	4b26      	ldr	r3, [pc, #152]	@ (8001698 <GAME+0xc4>)
  8001600:	801a      	strh	r2, [r3, #0]
-		//spd = 1;
 
 		if(time == 400)
  8001602:	4b25      	ldr	r3, [pc, #148]	@ (8001698 <GAME+0xc4>)
@@ -3145,8 +3139,6 @@ void GAME(void)
 
 	DinoAnimation();
  800167c:	f7ff fe30 	bl	80012e0 <DinoAnimation>
-
-
 	ObstacleAnimation(spd);
  8001680:	4b06      	ldr	r3, [pc, #24]	@ (800169c <GAME+0xc8>)
  8001682:	781b      	ldrb	r3, [r3, #0]
@@ -3158,7 +3150,7 @@ void GAME(void)
  800168e:	bf00      	nop
  8001690:	200000a0 	.word	0x200000a0
  8001694:	2000003c 	.word	0x2000003c
- 8001698:	20000052 	.word	0x20000052
+ 8001698:	20000050 	.word	0x20000050
  800169c:	20000000 	.word	0x20000000
 
 080016a0 <DrawDino>:
