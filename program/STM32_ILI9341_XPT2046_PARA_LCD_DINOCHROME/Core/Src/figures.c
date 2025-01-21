@@ -8,6 +8,8 @@
 #include "delay.h"
 #include "ILI9341_paradriver.h"
 
+extern uint16_t jump_step;	// GOING UP < jump_step/2
+							// GOING DOWN > jump_step/2
 
 // -------------------------------------------------------------------------------------
 // ------------------------------------- FIGURES ---------------------------------------
@@ -20,38 +22,71 @@ void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg)
 	LCD_Fill(27,160 - altitude,42,170 - altitude,GRAY);      // head
 	LCD_Fill(25,162 - altitude,45,172 - altitude,GRAY);
 
-	LCD_Fill(25,159 - altitude,26,161 - altitude,WHITE);		// clear head top 1
-	LCD_Fill(27,157 - altitude,42,159 - altitude,WHITE);		// clear head top 2
-	LCD_Fill(43,159 - altitude,45,161 - altitude,WHITE);		// clear head top 3
+	if(jump_step>=44 || (jump_step == 0))	// going down
+	{
+		LCD_Fill(25,158 - altitude,26,161 - altitude,WHITE);		// clear head top 1
+		LCD_Fill(27,156 - altitude,42,159 - altitude,WHITE);		// clear head top 2
+		LCD_Fill(43,158 - altitude,45,161 - altitude,WHITE);		// clear head top 3
+	}
+	if(jump_step <=44)	// going up
+	{
+		LCD_Fill(37,173 - altitude,45,174 - altitude,WHITE);		// clear head bottom
+		LCD_Fill(42,173 - altitude,45,177 - altitude,WHITE);		// clear head bottom
+	}
 
-	LCD_Fill(37,173 - altitude,45,175 - altitude,WHITE);		// clear head bottom
 
 
 	// ----------- EYE -----------
 	LCD_Fill(30,163 - altitude,32,166 - altitude,WHITE);     // eye
 
 
+
 	// ----------- MOUTH -----------
 	LCD_Fill(25,172 - altitude,36,175 - altitude,GRAY);      // mouth
 	LCD_Fill(25,175 - altitude,41,176 - altitude,GRAY);      // mouth (tongue)
 
-	LCD_Fill(36,177 - altitude,41,180 - altitude,WHITE);      // clear mouth (tongue)
+	if(jump_step>=44 || (jump_step == 0))	// going down
+	{
+		LCD_Fill(37,173 - altitude,45,174 - altitude,WHITE);		// clear mouth (tongue) top
+	}
+
+	if(jump_step <=44)	// going up
+	{
+		LCD_Fill(36,177 - altitude,41,180 - altitude,WHITE);      // clear mouth (tongue) bottom
+	}
+
 
 
 	// ----------- NECK & CHEST -----------
 	LCD_Fill(25,176 - altitude,35,177 - altitude,GRAY);     // neck
 	LCD_Fill(23,177 - altitude,35,192 - altitude,GRAY);     // neck & chest
 
-	LCD_Fill(23,174 - altitude,24,176 - altitude,WHITE);     // clear neck & chest top
-	LCD_Fill(33,193 - altitude,35,195 - altitude,WHITE);    // clear neck & chest bottom
+	if(jump_step>=44 || (jump_step == 0))	// going down
+	{
+		LCD_Fill(23,173 - altitude,24,176 - altitude,WHITE);     // clear neck & chest top
+	}
+	if(jump_step <=44)	// going up
+	{
+		LCD_Fill(33,193 - altitude,35,196 - altitude,WHITE);    // clear neck & chest bottom
+	}
+
 
 
 	// ----------- ARM -----------
 	LCD_Fill(35,181 - altitude,39,183 - altitude,GRAY);      // arm1
 	LCD_Fill(37,181 - altitude,39,185 - altitude,GRAY);		 // arm2
 
-	LCD_Fill(35,184 - altitude,36,186 - altitude,WHITE);      // clear arm1 bottom
-	LCD_Fill(37,186 - altitude,39,188 - altitude,WHITE);      // clear arm2 bottom
+	if(jump_step>=44 || (jump_step == 0))	// going down
+	{
+		LCD_Fill(36,177 - altitude,41,178 - altitude,WHITE);      // clear arm1 & arm2 top
+	}
+
+	if(jump_step <=44)	// going up
+	{
+		LCD_Fill(35,184 - altitude,36,187 - altitude,WHITE);      // clear arm1 bottom
+		LCD_Fill(37,186 - altitude,39,189 - altitude,WHITE);      // clear arm2 bottom
+	}
+
 
 
 	// ----------- BODY -----------
@@ -59,14 +94,20 @@ void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg)
 	LCD_Fill(17,182 - altitude,30,197 - altitude,GRAY);     // body2
 	LCD_Fill(12,185 - altitude,27,197 - altitude,GRAY);     // body3
 
-	LCD_Fill(20,177 - altitude,22,179 - altitude,WHITE);    // clear body1 top
-	LCD_Fill(17,179 - altitude,19,181 - altitude,WHITE);    // clear body2 top
-	LCD_Fill(13,182 - altitude,16,184 - altitude,WHITE);    // clear body3 top (tail part)
+	if(jump_step>=44 || (jump_step == 0))	// going down
+	{
+		LCD_Fill(20,176 - altitude,22,179 - altitude,WHITE);    // clear body1 top
+		LCD_Fill(17,178 - altitude,19,181 - altitude,WHITE);    // clear body2 top
+		LCD_Fill(13,181 - altitude,16,184 - altitude,WHITE);    // clear body3 top (tail part)
+	}
+	if(jump_step <=44)	// going up
+	{
+		LCD_Fill(31,196 - altitude,32,199 - altitude,WHITE);    // clear body1 bottom
+		LCD_Fill(28,198 - altitude,30,201 - altitude,WHITE);    // clear body2 bottom
+		LCD_Fill(12,197 - altitude,14,200 - altitude,WHITE);    // clear body3 leg break 1 bottom
+		LCD_Fill(20,197 - altitude,22,202 - altitude,WHITE);    // clear body3 leg break 2 bottom
+	}
 
-	LCD_Fill(31,196 - altitude,32,198 - altitude,WHITE);    // clear body1 bottom
-	LCD_Fill(28,198 - altitude,30,200 - altitude,WHITE);    // clear body2 bottom
-	LCD_Fill(12,197 - altitude,14,199 - altitude,WHITE);    // clear body3 leg break 1 bottom
-	LCD_Fill(20,197 - altitude,22,201 - altitude,WHITE);    // clear body3 leg break 2 bottom
 
 
 	// ----------- TAIL -----------
@@ -74,13 +115,19 @@ void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg)
 	LCD_Fill(8,180 - altitude,10,192 - altitude,GRAY);		// tail2
 	LCD_Fill(7,175 - altitude,8,188 - altitude,GRAY);		// tail3
 
-	LCD_Fill(10,179 - altitude,12,181 - altitude,WHITE);	// clear tail1 top
-	LCD_Fill(9,177 - altitude,10,179 - altitude,WHITE);		// clear tail2 top
-	LCD_Fill(7,172 - altitude,8,174 - altitude,WHITE);		// clear tail3 top
+	if(jump_step>=44 || (jump_step == 0))	// going down
+	{
+		LCD_Fill(10,178 - altitude,12,181 - altitude,WHITE);	// clear tail1 top
+		LCD_Fill(9,176 - altitude,10,179 - altitude,WHITE);		// clear tail2 top
+		LCD_Fill(7,171 - altitude,8,174 - altitude,WHITE);		// clear tail3 top
+	}
+	if(jump_step <=44)	// going up
+	{
+		LCD_Fill(10,196 - altitude,12,199 - altitude,WHITE);	// clear tail1 bottom
+		LCD_Fill(8,193 - altitude,9,196 - altitude,WHITE);		// clear tail2 bottom
+		LCD_Fill(6,189 - altitude,7,192 - altitude,WHITE);		// clear tail3 bottom
+	}
 
-	LCD_Fill(10,196 - altitude,12,198 - altitude,WHITE);	// clear tail1 bottom
-	LCD_Fill(8,193 - altitude,9,195 - altitude,WHITE);		// clear tail2 bottom
-	LCD_Fill(6,189 - altitude,7,191 - altitude,WHITE);		// clear tail3 bottom
 
 
 	// ----------- RIGHT LEG -----------
@@ -89,8 +136,17 @@ void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg)
 	LCD_Fill(27,205 - altitude - right_leg,30,207 - altitude - right_leg,GRAY);
 
 	LCD_Fill(23,202 - altitude - right_leg,24,204 - altitude - right_leg,WHITE);	// clear thigh
-	LCD_Fill(28,202 - altitude - right_leg,30,204 - altitude - right_leg,WHITE);	// clear foot top
-	LCD_Fill(23,209 - altitude - right_leg,30,211 - altitude - right_leg,WHITE);	// clear foot bottom
+
+	if(jump_step>=44 || (jump_step == 0))	// going down
+	{
+		LCD_Fill(28,202 - altitude - right_leg,30,204 - altitude - right_leg,WHITE);	// clear foot top
+
+	}
+	if(jump_step <=44)	// going up
+	{
+		LCD_Fill(23,209 - altitude - right_leg,30,212 - altitude - right_leg,WHITE);	// clear foot bottom
+	}
+
 
 
 	// ----------- LEFT LEG -----------
@@ -98,8 +154,15 @@ void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg)
 	LCD_Fill(15,200 - altitude - left_leg,17,207 - altitude - left_leg,GRAY);		// leg animation
 	LCD_Fill(17,205 - altitude - left_leg,20,207 - altitude - left_leg,GRAY);
 
-	LCD_Fill(18,202 - altitude - left_leg,20,204 - altitude - left_leg,WHITE);		// clear foot top with thigh
-	LCD_Fill(15,209 - altitude - left_leg,20,211 - altitude - left_leg,WHITE);		// clear foot bottom
+	if((jump_step>=44) || (jump_step == 0))	// going down
+	{
+		LCD_Fill(18,202 - altitude - left_leg,20,204 - altitude - left_leg,WHITE);		// clear foot top with thigh
+	}
+	if(jump_step <=44)	// going up
+	{
+		LCD_Fill(18,202 - altitude - left_leg,20,204 - altitude - left_leg,WHITE);		// clear foot top with thigh
+		LCD_Fill(15,209 - altitude - left_leg,20,212 - altitude - left_leg,WHITE);		// clear foot bottom
+	}
 }
 
 

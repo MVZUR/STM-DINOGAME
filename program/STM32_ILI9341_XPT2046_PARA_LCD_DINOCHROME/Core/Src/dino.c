@@ -19,7 +19,7 @@ extern uint8_t obs_refresh; 	// obstacle
 // -> dino jumping:
 uint16_t jump_step=0;	// step control for dino jumping
 uint16_t jump_pos=0;	// dino position on screen while jumping
-int8_t velocity=0;		// velocity of dino while jumping
+int8_t velocity=0;		// velocity of dino while jumping (4 max)
 
 // -> dino walking
 uint8_t walk_step=0;	// step control for walking animation
@@ -54,25 +54,25 @@ void DinoAnimation(void)
 			switch(jump_step)
 			{
 				case 0:
-					velocity = 3;	//30
+					velocity = 4;	//30
 					break;
 				case 30:
-					velocity = 2;	//14
+					velocity = 2;	//10
 					break;
-				case 44:
-					velocity = 1;	//7
+				case 40:
+					velocity = 1;	//3
 					break;
-				case 51:
+				case 43:
 					velocity = 0;	//3
 					break;
-				case 54:
-					velocity = -1;	//7
+				case 46:
+					velocity = -1;	//3
 					break;
-				case 61:
-					velocity = -2;	//14
+				case 49:
+					velocity = -2;	//10
 					break;
-				case 75:
-					velocity = -3;	//30
+				case 59:
+					velocity = -4;	//30
 					break;
 				default:
 					break;
@@ -80,7 +80,7 @@ void DinoAnimation(void)
 
 			jump_step++;
 
-			if(jump_step>104)	// in fact "jumping resolution"
+			if(jump_step>88)	// in fact "jumping resolution"
 			{
 				jump_step = 0;	// get back on base position
 			}
