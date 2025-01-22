@@ -6,6 +6,7 @@
  */
 #include "delay.h"
 #include "ILI9341_paradriver.h"
+#include <stdio.h>
 
 // #TESTING
 // HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
@@ -13,6 +14,7 @@
 // REFRESHING
 extern uint8_t refresh;			// dino, ground & game pending
 extern uint8_t obs_refresh; 	// obstacle
+extern uint32_t adc_value;
 
 
 // ANIMATIONS
@@ -25,14 +27,16 @@ int8_t velocity=0;		// velocity of dino while jumping (4 max)
 uint8_t walk_step=0;	// step control for walking animation
 
 // -> obstacle moving
-uint16_t obs_step=0;		// step control for obstacle moving
-uint16_t obs_pos=0;			// obstacle position on screen while moving
-uint8_t obs_acc_temp=0;		// obstacle temporary accelerate
-uint8_t obstacle_type=0;	// type of the obstacle (1, 2 or 3)
+static uint16_t obs_step=0;			// step control for obstacle moving
+static uint16_t obs_pos=0;			// obstacle position on screen while moving
+static uint8_t obs_acc_temp=0;		// obstacle temporary accelerate
+static uint16_t obs_passed=0;		// how many obstacles were passed
+uint8_t obstacle_type=2;			// type of the obstacle (1, 2 or 3)
+
 
 // -> game pending
 uint16_t time=0;	// time reference
-uint8_t spd=1;		// obstacle actual speed
+uint8_t spd=2;		// obstacle actual speed
 
 
 // FIGURES DEFINITIONS
@@ -43,13 +47,13 @@ void DrawObstacle3(uint16_t shift);		// BIG & small
 
 
 // DETECTOR DEFINITONS
-void DinoDetector(uint16_t altitude);
-void ObsDetector(uint16_t shift);
-uint8_t CollisionDetector(void);
+void DinoDetector(uint16_t altitude);	// dino
+void ObsDetector(uint16_t shift);		// obstacle
+uint8_t CollisionDetector(void);		// dino hit obstacle
 
 
 // RANDOMIZER DEFINITIONS
-uint32_t RandomNumbers(void);
+void RandomNumbers(void);	// from ADC
 
 
 
@@ -128,25 +132,34 @@ void DinoAnimation(void)
 	}
 }
 
-
-/*void ObstacleRandomizer(void)
+void ObstacleRandomizer(void)	// place random type of obstacle
 {
-	if(RandomNumbers() < 1500)
+	RandomNumbers();
+	if(adc_value < 1600)
 	{
 		obstacle_type = 1;
 	}
-	else if(RandomNumbers() < 2500)
+	else if(adc_value < 1800)
 	{
 		obstacle_type = 2;
 	}
 	else
 	{
-		obstacle_type = 3;
+		if(spd > 2)
+		{
+			obstacle_type = 3;
+		}
+
+		else
+		{
+			obstacle_type = 1;
+		}
+
 	}
-}*/
+}
 
 
-void ObstacleAnimation(uint8_t obs_type, uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
+void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle accelerate (max 7)
 {
 	if(obs_refresh==0)
 	{
@@ -184,30 +197,28 @@ void ObstacleAnimation(uint8_t obs_type, uint8_t obs_acc)		// obs_acc - obstacle
 
 		if(obs_pos>410)		// do not go too far..
 		{
-			obs_step = 0;	// reset step
-			obs_pos = 0;	// place obstacle on base position - out of screen (TYPE OF OBSTACLE CAN BE CHANGED NOW)
+			obs_step = 0;			// reset step
+			obs_pos = 0;			// place obstacle on base position - out of screen (TYPE OF OBSTACLE CAN BE CHANGED NOW)
+			ObstacleRandomizer();	// place random type of obstacle
+			obs_passed++;			// ...obstacle were passed
 		}
 
-		switch(obs_type)	// which obstacle to draw
+		switch(obstacle_type)	// which obstacle to draw
 		{
 			case 1:
 				DrawObstacle1(obs_pos);
-				obstacle_type = 1;
-				ObsDetector(obs_pos);
 				break;
 			case 2:
 				DrawObstacle2(obs_pos);
-				obstacle_type = 2;
-				ObsDetector(obs_pos);
 				break;
 			case 3:
 				DrawObstacle3(obs_pos);
-				obstacle_type = 3;
-				ObsDetector(obs_pos);
 				break;
 			default:
 				break;
 		}
+
+		ObsDetector(obs_pos);	// detect proper obstacle type
 	}
 }
 
@@ -226,7 +237,7 @@ void GAME(void)
 			LCD_DrawLine(0,190,320,190);	// draw ground
 
 
-			time++;
+/*			time++;
 
 			if(time == 400)
 			{
@@ -256,11 +267,35 @@ void GAME(void)
 			if(time>2800)
 			{
 				time = 0;
+			}*/
+
+			switch(obs_passed)
+			{
+				case 0:
+					spd = 2;
+					break;
+				case 5:
+					spd = 3;
+					break;
+				case 15:
+					spd = 4;
+					break;
+				case 30:
+					spd = 5;
+					break;
+				case 50:
+					spd = 6;
+					break;
+				case 80:
+					spd = 7;
+					break;
+				default:
+					break;
 			}
 		}
 
 		DinoAnimation();
-		ObstacleAnimation(3,3);
+		ObstacleAnimation(spd);
 	}
 	else if(CollisionDetector() == 1)
 	{
@@ -281,7 +316,7 @@ void GAME(void)
 		}
 
 		DinoAnimation();
-		ObstacleAnimation(3,3);
+		ObstacleAnimation(spd);
 	}
 
 

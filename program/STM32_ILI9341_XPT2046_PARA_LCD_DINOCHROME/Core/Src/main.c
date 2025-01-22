@@ -76,7 +76,7 @@ void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg);
 
 uint32_t adc_value;
 
-uint32_t RandomNumbers(void)
+void RandomNumbers(void)
 {
 	  HAL_ADC_Start(&hadc2); // ADC start conversion
 	  if (HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY) == HAL_OK)
@@ -84,8 +84,6 @@ uint32_t RandomNumbers(void)
 		  adc_value = HAL_ADC_GetValue(&hadc2); // ADC value
 	  }
 	  HAL_ADC_Stop(&hadc2); // ADC stop conversion
-
-	  return adc_value;
 }
 
 /* USER CODE END 0 */
@@ -154,7 +152,7 @@ int main(void)
 	GAME();
 
 
-/*	  sprintf(war,"%d",adc_value);
+/*	  sprintf(war,"%d",RandomNumbers());
 
 	  Show_Str(35,200,RED,WHITE,war,16,1);
 	  delay_ms(1000);

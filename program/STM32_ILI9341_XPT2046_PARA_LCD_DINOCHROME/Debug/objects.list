@@ -4,7 +4,6 @@
 "./Core/Src/dino.o"
 "./Core/Src/figures.o"
 "./Core/Src/main.o"
-"./Core/Src/randomizer.o"
 "./Core/Src/stm32f3xx_hal_msp.o"
 "./Core/Src/stm32f3xx_it.o"
 "./Core/Src/syscalls.o"

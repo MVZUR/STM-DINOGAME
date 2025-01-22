@@ -1,3 +1,4 @@
-../Core/Src/dino.c:59:6:DinoAnimation	19
-../Core/Src/dino.c:149:6:ObstacleAnimation	17
-../Core/Src/dino.c:219:6:GAME	13
+../Core/Src/dino.c:63:6:DinoAnimation	19
+../Core/Src/dino.c:135:6:ObstacleRandomizer	4
+../Core/Src/dino.c:162:6:ObstacleAnimation	17
+../Core/Src/dino.c:230:6:GAME	15
