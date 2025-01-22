@@ -1,4 +1,4 @@
-../Core/Src/figures.c:19:6:DrawDino	25
-../Core/Src/figures.c:170:6:DrawObstacle1	1
-../Core/Src/figures.c:204:6:DrawObstacle2	1
-../Core/Src/figures.c:237:6:DrawObstacle3	1
+../Core/Src/figures.c:21:6:DrawDino	25
+../Core/Src/figures.c:172:6:DrawObstacle1	1
+../Core/Src/figures.c:207:6:DrawObstacle2	1
+../Core/Src/figures.c:240:6:DrawObstacle3	1

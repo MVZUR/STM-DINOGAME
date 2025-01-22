@@ -1,5 +1,7 @@
-../Core/Src/main.c:78:5:main	8	static
-../Core/Src/main.c:141:6:SystemClock_Config	160	static
-../Core/Src/main.c:188:13:MX_TIM2_Init	40	static
-../Core/Src/main.c:233:13:MX_GPIO_Init	40	static
-../Core/Src/main.c:310:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:79:10:RandomNumbers	8	static
+../Core/Src/main.c:97:5:main	8	static
+../Core/Src/main.c:173:6:SystemClock_Config	160	static
+../Core/Src/main.c:221:13:MX_ADC2_Init	32	static
+../Core/Src/main.c:278:13:MX_TIM2_Init	40	static
+../Core/Src/main.c:323:13:MX_GPIO_Init	40	static
+../Core/Src/main.c:400:6:Error_Handler	4	static,ignoring_inline_asm

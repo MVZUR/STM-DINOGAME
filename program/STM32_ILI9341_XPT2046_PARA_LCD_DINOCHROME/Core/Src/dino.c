@@ -28,6 +28,7 @@ uint8_t walk_step=0;	// step control for walking animation
 uint16_t obs_step=0;		// step control for obstacle moving
 uint16_t obs_pos=0;			// obstacle position on screen while moving
 uint8_t obs_acc_temp=0;		// obstacle temporary accelerate
+uint8_t obstacle_type=0;	// type of the obstacle (1, 2 or 3)
 
 // -> game pending
 uint16_t time=0;	// time reference
@@ -39,6 +40,16 @@ void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg);	// dino
 void DrawObstacle1(uint16_t shift);		// single BIG
 void DrawObstacle2(uint16_t shift);		// single small
 void DrawObstacle3(uint16_t shift);		// BIG & small
+
+
+// DETECTOR DEFINITONS
+void DinoDetector(uint16_t altitude);
+void ObsDetector(uint16_t shift);
+uint8_t CollisionDetector(void);
+
+
+// RANDOMIZER DEFINITIONS
+uint32_t RandomNumbers(void);
 
 
 
@@ -88,6 +99,7 @@ void DinoAnimation(void)
 			jump_pos = jump_pos + velocity;		// calculate position while jumping
 
 			DrawDino(jump_pos,0,0);
+			DinoDetector(jump_pos);
 		}
 	}
 
@@ -97,17 +109,17 @@ void DinoAnimation(void)
 		{
 			walk_step++;
 
-			if(walk_step>60)		//delay between steps
+			if(walk_step>40)		//delay between steps
 			{
 				walk_step = 0;
 			}
 
-			if(walk_step < 30)
+			if(walk_step < 20)
 			{
 				DrawDino(0,0,3);
 			}
 
-			else if(walk_step >= 30)
+			else if(walk_step >= 20)
 			{
 				DrawDino(0,3,0);
 			}
@@ -117,7 +129,24 @@ void DinoAnimation(void)
 }
 
 
-void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
+/*void ObstacleRandomizer(void)
+{
+	if(RandomNumbers() < 1500)
+	{
+		obstacle_type = 1;
+	}
+	else if(RandomNumbers() < 2500)
+	{
+		obstacle_type = 2;
+	}
+	else
+	{
+		obstacle_type = 3;
+	}
+}*/
+
+
+void ObstacleAnimation(uint8_t obs_type, uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
 {
 	if(obs_refresh==0)
 	{
@@ -159,7 +188,26 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
 			obs_pos = 0;	// place obstacle on base position - out of screen (TYPE OF OBSTACLE CAN BE CHANGED NOW)
 		}
 
-		DrawObstacle3(obs_pos);
+		switch(obs_type)	// which obstacle to draw
+		{
+			case 1:
+				DrawObstacle1(obs_pos);
+				obstacle_type = 1;
+				ObsDetector(obs_pos);
+				break;
+			case 2:
+				DrawObstacle2(obs_pos);
+				obstacle_type = 2;
+				ObsDetector(obs_pos);
+				break;
+			case 3:
+				DrawObstacle3(obs_pos);
+				obstacle_type = 3;
+				ObsDetector(obs_pos);
+				break;
+			default:
+				break;
+		}
 	}
 }
 
@@ -170,45 +218,71 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle velocity (max 7)
 // ------------------------------------------------------------------------------------
 void GAME(void)
 {
-	if(refresh==0)
+	if(CollisionDetector() == 0)
 	{
-		POINT_COLOR=GRAY;
-		LCD_DrawLine(0,190,320,190);	// draw ground
+		if(refresh==0)
+		{
+			POINT_COLOR=GRAY;
+			LCD_DrawLine(0,190,320,190);	// draw ground
 
 
-		time++;
+			time++;
 
-		if(time == 400)
-		{
-			spd = 2;
-		}
-		else if(time == 800)
-		{
-			spd = 3;
-		}
-		else if(time == 1200)
-		{
-			spd = 4;
-		}
-		else if(time == 1600)
-		{
-			spd = 5;
-		}
-		else if(time == 2000)
-		{
-			spd = 6;
-		}
-		else if(time == 2400)
-		{
-			spd = 7;
+			if(time == 400)
+			{
+				spd = 2;
+			}
+			else if(time == 800)
+			{
+				spd = 3;
+			}
+			else if(time == 1200)
+			{
+				spd = 4;
+			}
+			else if(time == 1600)
+			{
+				spd = 5;
+			}
+			else if(time == 2000)
+			{
+				spd = 6;
+			}
+			else if(time == 2400)
+			{
+				spd = 7;
+			}
+
+			if(time>2800)
+			{
+				time = 0;
+			}
 		}
 
-		if(time>2800)
+		DinoAnimation();
+		ObstacleAnimation(3,3);
+	}
+	else if(CollisionDetector() == 1)
+	{
+
+			DinoAnimation();
+			POINT_COLOR=RED;
+			LCD_DrawLine(0,190,320,190);	// DO SOMETHING AT THE END
+			while(1);	// game over
+
+	}
+	else if(CollisionDetector() == 2)		// game pending for a moment (get closer to obstacle, but over the game anyway)
+	{
+		if(refresh==0)
 		{
-			time = 0;
+			POINT_COLOR=GRAY;
+			LCD_DrawLine(0,190,320,190);
+
 		}
+
+		DinoAnimation();
+		ObstacleAnimation(3,3);
 	}
 
-	DinoAnimation();
-	ObstacleAnimation(spd);
+
 }

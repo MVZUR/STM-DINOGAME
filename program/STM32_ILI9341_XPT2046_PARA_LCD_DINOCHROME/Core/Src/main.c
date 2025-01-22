@@ -24,6 +24,7 @@
 #include "sys.h"
 #include "delay.h"
 #include "ILI9341_paradriver.h"
+//#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,6 +43,8 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+ADC_HandleTypeDef hadc2;
+
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
@@ -52,6 +55,7 @@ TIM_HandleTypeDef htim2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_ADC2_Init(void);
 /* USER CODE BEGIN PFP */
 void delay_init(u8 SYSCLK);
 void ILI9341_paradriver_Init(void);
@@ -59,15 +63,30 @@ void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2);
 void LCD_DrawFillRectangle(u16 x1, u16 y1, u16 x2, u16 y2);
 void Show_Str(u16 x, u16 y, u16 fc, u16 bc, u8 *str,u8 size,u8 mode);
 void GAME(void);
-void DrawDino(uint8_t altitude,uint8_t left_leg, uint8_t right_leg);
 void DrawObstacle1(uint16_t shift);
 void DrawObstacle2(uint16_t shift);
 void DrawObstacle3(uint16_t shift);
+void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg);
+//void CollisionDetector(void);
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+uint32_t adc_value;
+
+uint32_t RandomNumbers(void)
+{
+	  HAL_ADC_Start(&hadc2); // ADC start conversion
+	  if (HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY) == HAL_OK)
+	  {
+		  adc_value = HAL_ADC_GetValue(&hadc2); // ADC value
+	  }
+	  HAL_ADC_Stop(&hadc2); // ADC stop conversion
+
+	  return adc_value;
+}
 
 /* USER CODE END 0 */
 
@@ -101,6 +120,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM2_Init();
+  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
   delay_init(72);			// delay initialization (System Clock [MHz])
   ILI9341_paradriver_Init();			// initialization of LCD driver
@@ -112,11 +132,18 @@ int main(void)
   	//POINT_COLOR=BLACK;
   	//LCD_DrawLine(0,0,0,240);	// hide obstacles
 
-  //Show_Str(35,200,RED,WHITE,"this is test program",16,1);
 
 
 
-	//DrawObstacle3(240);
+
+
+
+
+  //char war[5];
+
+	//DrawObstacle1(240);
+  //DrawDino(0,0,0);
+  //CollisionDetector();
 
   /* USER CODE END 2 */
 
@@ -127,6 +154,11 @@ int main(void)
 	GAME();
 
 
+/*	  sprintf(war,"%d",adc_value);
+
+	  Show_Str(35,200,RED,WHITE,war,16,1);
+	  delay_ms(1000);
+	  LCD_Fill(0,200,100,240,WHITE);*/
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -172,12 +204,70 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_TIM2;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC12|RCC_PERIPHCLK_TIM2;
+  PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
   PeriphClkInit.Tim2ClockSelection = RCC_TIM2CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief ADC2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC2_Init(void)
+{
+
+  /* USER CODE BEGIN ADC2_Init 0 */
+
+  /* USER CODE END ADC2_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC2_Init 1 */
+
+  /* USER CODE END ADC2_Init 1 */
+
+  /** Common config
+  */
+  hadc2.Instance = ADC2;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+  hadc2.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc2.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc2.Init.ContinuousConvMode = DISABLE;
+  hadc2.Init.DiscontinuousConvMode = DISABLE;
+  hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc2.Init.NbrOfConversion = 1;
+  hadc2.Init.DMAContinuousRequests = DISABLE;
+  hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc2.Init.LowPowerAutoWait = DISABLE;
+  hadc2.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
+  if (HAL_ADC_Init(&hadc2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_3;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SingleDiff = ADC_SINGLE_ENDED;
+  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  sConfig.OffsetNumber = ADC_OFFSET_NONE;
+  sConfig.Offset = 0;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC2_Init 2 */
+
+  /* USER CODE END ADC2_Init 2 */
+
 }
 
 /**
@@ -199,7 +289,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 199;
+  htim2.Init.Prescaler = 179;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 1499;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
