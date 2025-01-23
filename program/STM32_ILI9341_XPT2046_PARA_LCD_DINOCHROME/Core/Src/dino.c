@@ -32,11 +32,14 @@ static uint16_t obs_pos=0;			// obstacle position on screen while moving
 static uint8_t obs_acc_temp=0;		// obstacle temporary accelerate
 static uint16_t obs_passed=0;		// how many obstacles were passed
 uint8_t obstacle_type=2;			// type of the obstacle (1, 2 or 3)
+static uint8_t spd=2;		// obstacle actual speed
 
 
 // -> game pending
-uint16_t time=0;	// time reference
-uint8_t spd=2;		// obstacle actual speed
+static uint16_t score=0;
+static uint16_t best_score=0;
+char score_char[6];
+char best_score_char[6];
 
 
 // FIGURES DEFINITIONS
@@ -44,6 +47,7 @@ void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg);	// dino
 void DrawObstacle1(uint16_t shift);		// single BIG
 void DrawObstacle2(uint16_t shift);		// single small
 void DrawObstacle3(uint16_t shift);		// BIG & small
+void GameOverText(void);				// "GAME OVER" at the end
 
 
 // DETECTOR DEFINITONS
@@ -158,8 +162,9 @@ void ObstacleRandomizer(void)	// place random type of obstacle
 	}
 }
 
+uint8_t slicer=1;
 
-void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle accelerate (max 7)
+void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle accelerate (max 7 if obs_acc = 13)
 {
 	if(obs_refresh==0)
 	{
@@ -188,12 +193,43 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle accelerate (max 7
 			case 7:
 				obs_acc_temp = 4;
 				break;
+			case 8:
+				if(obs_step%2 == 0) obs_acc_temp = 4; else obs_acc_temp = 5;
+				break;
+			case 9:
+				obs_acc_temp = 5;
+				break;
+			case 10:
+				if(obs_step%2 == 0) obs_acc_temp = 5; else obs_acc_temp = 6;
+				break;
+			case 11:
+				obs_acc_temp = 6;
+				break;
+			case 12:
+				if(obs_step%2 == 0) obs_acc_temp = 6; else obs_acc_temp = 7;
+				break;
+			case 13:
+				obs_acc_temp = 7;
+				break;
 			default:
 				obs_acc_temp = 0;
 				break;
 		}
 
-		obs_pos = obs_pos + obs_acc;	// calculate obstacle position
+		obs_pos = obs_pos + obs_acc_temp;	// calculate obstacle position
+
+
+		// CALCULATE SCORE
+		if((obs_pos/slicer) > 50)	// give point 4 times per obstacle
+		{
+			score++;
+			slicer++;
+
+			Show_Str(220,20,BLACK,WHITE,"     ",16,0);			// reset previous score
+			sprintf(score_char,"%d",score);
+			Show_Str(220,20,BLACK,WHITE,score_char,16,1);		// show score
+		}
+
 
 		if(obs_pos>410)		// do not go too far..
 		{
@@ -201,6 +237,8 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle accelerate (max 7
 			obs_pos = 0;			// place obstacle on base position - out of screen (TYPE OF OBSTACLE CAN BE CHANGED NOW)
 			ObstacleRandomizer();	// place random type of obstacle
 			obs_passed++;			// ...obstacle were passed
+			slicer=1;				// reset slicer
+
 		}
 
 		switch(obstacle_type)	// which obstacle to draw
@@ -223,6 +261,44 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle accelerate (max 7
 }
 
 
+void EndGame(void)
+{
+	// save best & reset score
+	if(score > best_score)
+	{
+		best_score = score;
+	}
+	score=0;
+
+	// reset dino
+	jump_step=0;
+	jump_pos=0;
+	velocity=0;
+	walk_step=0;
+
+	// reset obstacles
+	obs_step=0;
+	obs_pos=0;
+	obs_acc_temp=0;
+	obs_passed=0;
+	obstacle_type=3;	// reset both BIG & Small
+	spd=2;
+
+	DinoDetector(0);	// tell detector that position were reset
+	ObsDetector(0);		// ..
+
+	obstacle_type=2;	// get back to first obstacle
+
+	//sprintf(best_score_char,"%d",best_score);
+	//Show_Str(100,60,BLACK,WHITE,"GAME OVER",16,1);		// show score
+
+
+	GameOverText();
+
+	while(TOUCH);	// wait for touch
+	LCD_Clear(WHITE);
+}
+
 
 // ------------------------------------------------------------------------------------
 // ---------------------------------- GAME PENDING ------------------------------------
@@ -236,61 +312,25 @@ void GAME(void)
 			POINT_COLOR=GRAY;
 			LCD_DrawLine(0,190,320,190);	// draw ground
 
+			//sprintf(best_score_char,"%d",best_score);
+			//Show_Str(260,20,BLACK,WHITE,best_score_char,16,1);		// show score
 
-/*			time++;
 
-			if(time == 400)
+			switch(obs_passed)		// increase obstacle velocity
 			{
-				spd = 2;
-			}
-			else if(time == 800)
-			{
-				spd = 3;
-			}
-			else if(time == 1200)
-			{
-				spd = 4;
-			}
-			else if(time == 1600)
-			{
-				spd = 5;
-			}
-			else if(time == 2000)
-			{
-				spd = 6;
-			}
-			else if(time == 2400)
-			{
-				spd = 7;
-			}
-
-			if(time>2800)
-			{
-				time = 0;
-			}*/
-
-			switch(obs_passed)
-			{
-				case 0:
-					spd = 2;
-					break;
-				case 5:
-					spd = 3;
-					break;
-				case 15:
-					spd = 4;
-					break;
-				case 30:
-					spd = 5;
-					break;
-				case 50:
-					spd = 6;
-					break;
-				case 80:
-					spd = 7;
-					break;
-				default:
-					break;
+				case 0: spd = 2; break;
+				case 1: spd = 3; break;
+				case 2:	spd = 4; break;
+				case 4:	spd = 5; break;
+				case 8:	spd = 6; break;
+				case 14: spd = 7; break;
+				case 22: spd = 8; break;
+				case 32: spd = 9; break;
+				case 44: spd = 10; break;
+				case 58: spd = 11; break;
+				case 74: spd = 12; break;
+				case 92: spd = 13; break;
+				default: break;
 			}
 		}
 
@@ -301,9 +341,7 @@ void GAME(void)
 	{
 
 			DinoAnimation();
-			POINT_COLOR=RED;
-			LCD_DrawLine(0,190,320,190);	// DO SOMETHING AT THE END
-			while(1);	// game over
+			EndGame();
 
 	}
 	else if(CollisionDetector() == 2)		// game pending for a moment (get closer to obstacle, but over the game anyway)
@@ -312,7 +350,6 @@ void GAME(void)
 		{
 			POINT_COLOR=GRAY;
 			LCD_DrawLine(0,190,320,190);
-
 		}
 
 		DinoAnimation();

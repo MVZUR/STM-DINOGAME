@@ -2,3 +2,4 @@
 ../Core/Src/figures.c:172:6:DrawObstacle1	24	static
 ../Core/Src/figures.c:207:6:DrawObstacle2	24	static
 ../Core/Src/figures.c:240:6:DrawObstacle3	24	static
+../Core/Src/figures.c:307:6:GameOverText	16	static

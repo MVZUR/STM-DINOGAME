@@ -302,3 +302,48 @@ void DrawObstacle3(uint16_t shift)		// BIG & small
 	LCD_Fill(400 - shift,189,406 - shift,190,RUBBER);
 	LCD_Fill(399 - shift,190,405 - shift,191,RUBBER);
 }
+
+
+void GameOverText(void)
+{
+	LCD_Fill(85,52,107,67,GRAY); // G
+	LCD_Fill(85,67,97,92,GRAY); // G
+	LCD_Fill(102,75,112,80,GRAY); // G
+	LCD_Fill(105,75,112,87,GRAY); // G
+	LCD_Fill(85,87,112,97,GRAY); // G
+
+	LCD_Fill(115,52,140,67,GRAY); // A
+	LCD_Fill(115,67,125,97,GRAY);  // A
+	LCD_Fill(130,67,140,97,GRAY); // A
+	LCD_Fill(120,82,135,87,GRAY); // A
+
+	LCD_Fill(147,52,162,97,GRAY); // M
+	LCD_Fill(162,52,185,67,GRAY); // M
+	LCD_Fill(167,67,177,97,GRAY); // M
+	LCD_Fill(182,52,197,97,GRAY); // M
+
+	LCD_Fill(205,52,220,97,GRAY); // E
+	LCD_Fill(220,52,230,67,GRAY); // E
+	LCD_Fill(220,72,230,82,GRAY); // E
+	LCD_Fill(220,87,230,97,GRAY); // E
+
+	LCD_Fill(85,112,100,157,GRAY); // O
+	LCD_Fill(100,112,115,127,GRAY); // O
+	LCD_Fill(115,127,130,142,GRAY); // O
+	LCD_Fill(100,142,130,157,GRAY); // O
+
+	LCD_Fill(137,112,147,147,GRAY); // V
+	LCD_Fill(147,147,157,157,GRAY); // V
+	LCD_Fill(157,112,167,147,GRAY); // V
+
+	LCD_Fill(175,112,190,157,GRAY); // E
+	LCD_Fill(190,112,200,127,GRAY); // E
+	LCD_Fill(190,132,200,142,GRAY); // E
+	LCD_Fill(190,147,200,157,GRAY); // E
+
+	LCD_Fill(207,112,222,157,GRAY); // R
+	LCD_Fill(222,112,232,127,GRAY); // R
+	LCD_Fill(232,127,242,142,GRAY); // R
+	LCD_Fill(222,122,232,132,GRAY); // R
+
+}
