@@ -18,7 +18,7 @@ extern uint16_t jump_step;	// GOING UP < jump_step/2
 // -------------------------------------------------------------------------------------
 
 // dino
-void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg)
+void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg, uint8_t end)
 {
 	// ----------- HEAD -----------
 	LCD_Fill(27,160 - altitude,42,170 - altitude,GRAY);      // head
@@ -39,7 +39,12 @@ void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg)
 
 
 	// ----------- EYE -----------
-	LCD_Fill(30,163 - altitude,32,166 - altitude,RUBBER);     // eye
+	if(end == 1)
+	{
+		LCD_Fill(30,163 - altitude,33,166 - altitude,WHITE);     // big eye (if fail)
+		LCD_Fill(31,164 - altitude,32,165 - altitude,BLUE);     // big eye (if fail)
+	}
+	else LCD_Fill(31,164 - altitude,32,165 - altitude,WHITE);     // small eye
 
 
 
@@ -306,14 +311,14 @@ void DrawObstacle3(uint16_t shift)		// BIG & small
 
 void GameOverText(void)
 {
-	LCD_Fill(85,52,107,67,GRAY); // G
-	LCD_Fill(85,67,97,92,GRAY); // G
+	LCD_Fill(85,52,107,67,GRAY);  // G
+	LCD_Fill(85,67,97,92,GRAY);   // G
 	LCD_Fill(102,75,112,80,GRAY); // G
 	LCD_Fill(105,75,112,87,GRAY); // G
-	LCD_Fill(85,87,112,97,GRAY); // G
+	LCD_Fill(85,87,112,97,GRAY);  // G
 
 	LCD_Fill(115,52,140,67,GRAY); // A
-	LCD_Fill(115,67,125,97,GRAY);  // A
+	LCD_Fill(115,67,125,97,GRAY); // A
 	LCD_Fill(130,67,140,97,GRAY); // A
 	LCD_Fill(120,82,135,87,GRAY); // A
 
@@ -327,7 +332,7 @@ void GameOverText(void)
 	LCD_Fill(220,72,230,82,GRAY); // E
 	LCD_Fill(220,87,230,97,GRAY); // E
 
-	LCD_Fill(85,112,100,157,GRAY); // O
+	LCD_Fill(85,112,100,157,GRAY);  // O
 	LCD_Fill(100,112,115,127,GRAY); // O
 	LCD_Fill(115,127,130,142,GRAY); // O
 	LCD_Fill(100,142,130,157,GRAY); // O
@@ -345,5 +350,24 @@ void GameOverText(void)
 	LCD_Fill(222,112,232,127,GRAY); // R
 	LCD_Fill(232,127,242,142,GRAY); // R
 	LCD_Fill(222,122,232,132,GRAY); // R
+}
 
+void GameStartText(void)
+{
+	LCD_Fill(85,52,107,97,GRAY);  // P
+	LCD_Fill(107,52,122,65,GRAY); // P
+	LCD_Fill(107,72,122,82,GRAY); // P
+	LCD_Fill(115,65,122,72,GRAY); // P
+
+	LCD_Fill(127,52,140,97,GRAY); // L
+	LCD_Fill(140,87,155,97,GRAY); // L
+
+	LCD_Fill(160,52,170,97,GRAY); // A
+	LCD_Fill(180,52,190,97,GRAY); // A
+	LCD_Fill(170,72,180,82,GRAY); // A
+	LCD_Fill(170,52,180,62,GRAY); // A
+
+	LCD_Fill(210,52,225,97,GRAY); // Y
+	LCD_Fill(195,62,225,72,GRAY); // Y
+	LCD_Fill(195,52,205,72,GRAY); // Y
 }

@@ -1,5 +1,6 @@
-../Core/Src/figures.c:21:6:DrawDino	25
-../Core/Src/figures.c:172:6:DrawObstacle1	1
-../Core/Src/figures.c:207:6:DrawObstacle2	1
-../Core/Src/figures.c:240:6:DrawObstacle3	1
-../Core/Src/figures.c:307:6:GameOverText	1
+../Core/Src/figures.c:21:6:DrawDino	26
+../Core/Src/figures.c:177:6:DrawObstacle1	1
+../Core/Src/figures.c:212:6:DrawObstacle2	1
+../Core/Src/figures.c:245:6:DrawObstacle3	1
+../Core/Src/figures.c:312:6:GameOverText	1
+../Core/Src/figures.c:355:6:GameStartText	1

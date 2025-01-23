@@ -1,5 +1,6 @@
-../Core/Src/dino.c:67:6:DinoAnimation	8	static
-../Core/Src/dino.c:139:6:ObstacleRandomizer	8	static
-../Core/Src/dino.c:167:6:ObstacleAnimation	32	static
-../Core/Src/dino.c:264:6:EndGame	8	static
-../Core/Src/dino.c:306:6:GAME	8	static
+../Core/Src/dino.c:69:6:DinoAnimation	8	static
+../Core/Src/dino.c:141:6:ObstacleRandomizer	8	static
+../Core/Src/dino.c:169:6:ObstacleAnimation	32	static
+../Core/Src/dino.c:266:6:StartGame	24	static
+../Core/Src/dino.c:293:6:EndGame	24	static
+../Core/Src/dino.c:336:6:GAME	8	static

@@ -36,6 +36,7 @@ static uint8_t spd=2;		// obstacle actual speed
 
 
 // -> game pending
+static uint8_t play=0;
 static uint16_t score=0;
 static uint16_t best_score=0;
 char score_char[6];
@@ -43,11 +44,12 @@ char best_score_char[6];
 
 
 // FIGURES DEFINITIONS
-void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg);	// dino
+void DrawDino(uint16_t altitude,uint8_t left_leg, uint8_t right_leg, uint8_t end);	// dino
 void DrawObstacle1(uint16_t shift);		// single BIG
 void DrawObstacle2(uint16_t shift);		// single small
 void DrawObstacle3(uint16_t shift);		// BIG & small
 void GameOverText(void);				// "GAME OVER" at the end
+void GameStartText(void);				// "PLAY" at start
 
 
 // DETECTOR DEFINITONS
@@ -106,7 +108,7 @@ void DinoAnimation(void)
 
 			jump_pos = jump_pos + velocity;		// calculate position while jumping
 
-			DrawDino(jump_pos,0,0);
+			DrawDino(jump_pos,0,0,0);
 			DinoDetector(jump_pos);
 		}
 	}
@@ -124,12 +126,12 @@ void DinoAnimation(void)
 
 			if(walk_step < 20)
 			{
-				DrawDino(0,0,3);
+				DrawDino(0,0,3,0);
 			}
 
 			else if(walk_step >= 20)
 			{
-				DrawDino(0,3,0);
+				DrawDino(0,3,0,0);
 			}
 
 		}
@@ -225,9 +227,9 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle accelerate (max 7
 			score++;
 			slicer++;
 
-			Show_Str(220,20,BLACK,WHITE,"     ",16,0);			// reset previous score
+			Show_Str(150,20,BLACK,WHITE,"     ",16,0);			// reset previous score
 			sprintf(score_char,"%d",score);
-			Show_Str(220,20,BLACK,WHITE,score_char,16,1);		// show score
+			Show_Str(150,20,BLACK,WHITE,score_char,16,1);		// show score
 		}
 
 
@@ -261,6 +263,33 @@ void ObstacleAnimation(uint8_t obs_acc)		// obs_acc - obstacle accelerate (max 7
 }
 
 
+void StartGame(void)
+{
+	if(play == 0)
+	{
+		GameStartText();	// "PLAY"
+		DrawDino(0,0,0,0);
+		Show_Str(95,110,WHITE,GRAY," PRESS TO START ",16,0);
+
+
+		delay_ms(300);	// prevent instant change if touch is continuous
+		while(TOUCH);	// wait for touch
+
+		LCD_Fill(80,40,240,130,WHITE);
+
+		sprintf(score_char,"%d",score);
+		sprintf(best_score_char,"%d",best_score);
+		Show_Str(220,20,BLACK,WHITE,"Hi:",16,1);
+		Show_Str(245,20,BLACK,WHITE,best_score_char,16,1);		// show score
+
+		Show_Str(150,20,BLACK,WHITE,score_char,16,1);		// show score
+
+		play = 1;	// start game
+	}
+}
+
+
+
 void EndGame(void)
 {
 	// save best & reset score
@@ -281,22 +310,23 @@ void EndGame(void)
 	obs_pos=0;
 	obs_acc_temp=0;
 	obs_passed=0;
-	obstacle_type=3;	// reset both BIG & Small
 	spd=2;
+	obstacle_type=3;	// reset both BIG & Small
 
 	DinoDetector(0);	// tell detector that position were reset
 	ObsDetector(0);		// ..
 
 	obstacle_type=2;	// get back to first obstacle
 
-	//sprintf(best_score_char,"%d",best_score);
-	//Show_Str(100,60,BLACK,WHITE,"GAME OVER",16,1);		// show score
+	GameOverText();		// "GAME OVER"
+	Show_Str(90,220,WHITE,GRAY," PRESS TO RESTART ",16,0);
 
 
-	GameOverText();
-
+	delay_ms(300);	// prevent instant change if touch is continuous
 	while(TOUCH);	// wait for touch
+
 	LCD_Clear(WHITE);
+	play = 0;	// restart game
 }
 
 
@@ -305,16 +335,14 @@ void EndGame(void)
 // ------------------------------------------------------------------------------------
 void GAME(void)
 {
+	StartGame();
+
 	if(CollisionDetector() == 0)
 	{
 		if(refresh==0)
 		{
 			POINT_COLOR=GRAY;
 			LCD_DrawLine(0,190,320,190);	// draw ground
-
-			//sprintf(best_score_char,"%d",best_score);
-			//Show_Str(260,20,BLACK,WHITE,best_score_char,16,1);		// show score
-
 
 			switch(obs_passed)		// increase obstacle velocity
 			{
@@ -340,7 +368,8 @@ void GAME(void)
 	else if(CollisionDetector() == 1)
 	{
 
-			DinoAnimation();
+			//DinoAnimation();
+			DrawDino(jump_pos,0,0,1);
 			EndGame();
 
 	}
